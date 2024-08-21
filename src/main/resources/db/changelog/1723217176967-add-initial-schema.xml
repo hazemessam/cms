@@ -1,0 +1,500 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <!-- Add tables -->
+    <changeSet id="1" author="hazem">
+        <createTable tableName="departments">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="type" type="VARCHAR(255)"/>
+            <column name="deleted" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+
+            <!-- Foreign Key Columns-->
+            <column name="manager_id" type="BIGINT"/>
+
+            <!-- Auditing Columns-->
+            <column name="created_at" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP"/>
+        </createTable>
+
+        <createSequence sequenceName="employees_id_seq"/>
+
+        <createTable tableName="teams">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="deleted" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+
+            <!-- Foreign Key Columns-->
+            <column name="lead_id" type="BIGINT"/>
+            <column name="department_id" type="BIGINT"/>
+
+            <!-- Auditing Columns-->
+            <column name="created_at" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP"/>
+        </createTable>
+
+        <createTable tableName="employees">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="password" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="national_id" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="phone_number" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="hiring_date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+
+            <!-- Foreign Key Columns-->
+            <column name="department_id" type="BIGINT"/>
+            <column name="interview_cycle_id" type="BIGINT"/>
+
+            <!-- Auditing Columns-->
+            <column name="created_at" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP"/>
+        </createTable>
+
+        <createTable tableName="sprints">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="title" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="start_date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="end_date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+
+            <!-- Foreign Key Columns-->
+            <column name="initiator_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="team_id" type="BIGINT"/>
+
+            <!-- Auditing Columns-->
+            <column name="created_at" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP"/>
+        </createTable>
+
+        <createTable tableName="tasks">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="title" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="TEXT"/>
+            <column name="status" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="duration" type="INT"/>
+            <column name="deleted" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+
+            <!-- Foreign Key Columns-->
+            <column name="sprint_id" type="BIGINT"/>
+            <column name="assigned_id" type="BIGINT"/>
+
+            <!-- Auditing Columns-->
+            <column name="created_at" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP"/>
+        </createTable>
+
+        <createTable tableName="duties">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="start_date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="end_date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="working_hours_per_day" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+
+            <!-- Foreign Key Columns-->
+            <column name="employee_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="approver_id" type="BIGINT"/>
+
+            <!-- Auditing Columns-->
+            <column name="created_at" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP"/>
+        </createTable>
+
+        <createTable tableName="employees_teams">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="role" type="VARCHAR(255)"/>
+
+            <!-- Foreign Key Columns-->
+            <column name="employee_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="team_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+
+            <!-- Auditing Columns-->
+            <column name="created_at" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP"/>
+        </createTable>
+
+        <createTable tableName="trainings">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="training_hours" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+
+            <!-- Auditing Columns-->
+            <column name="created_at" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP"/>
+        </createTable>
+
+        <createTable tableName="employees_trainings">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="enrollment_date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+
+            <!-- Foreign Key Columns-->
+            <column name="employee_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="training_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+
+            <!-- Auditing Columns-->
+            <column name="created_at" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP"/>
+        </createTable>
+
+        <createTable tableName="interview_candidates">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="phone_number" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="deleted" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+
+            <!-- Auditing Columns-->
+            <column name="created_at" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP"/>
+        </createTable>
+
+        <createTable tableName="interview_applications">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="cv_url" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="referral_type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="position" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+
+            <!-- Foreign Key Columns-->
+            <column name="candidate_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="department_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="referral_employee_id" type="BIGINT"/>
+
+            <!-- Auditing Columns-->
+            <column name="created_at" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP"/>
+        </createTable>
+
+        <createTable tableName="interview_cycle">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="status" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rating" type="INT"/>
+            <column name="deleted" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+
+            <!-- Foreign Key Columns-->
+            <column name="application_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+
+            <!-- Auditing Columns-->
+            <column name="created_at" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP"/>
+        </createTable>
+
+        <createTable tableName="interview">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" unique="true"/>
+            </column>
+            <column name="type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="appointment" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rating" type="INT"/>
+            <column name="deleted" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+
+            <!-- Foreign Key Columns-->
+            <column name="interview_cycle_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="interviewer_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+
+            <!-- Auditing Columns-->
+            <column name="created_at" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP"/>
+        </createTable>
+    </changeSet>
+
+    <!-- Add foreign key constraints -->
+    <changeSet id="2" author="hazem">
+        <addForeignKeyConstraint constraintName="fk_departments_manager_id"
+                                 baseTableName="departments" baseColumnNames="manager_id"
+                                 referencedTableName="employees" referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint constraintName="fk_teams_lead_id"
+                                 baseTableName="teams" baseColumnNames="lead_id"
+                                 referencedTableName="employees" referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint constraintName="fk_teams_department_id"
+                                 baseTableName="teams" baseColumnNames="department_id"
+                                 referencedTableName="departments" referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint constraintName="fk_employees_department_id"
+                                 baseTableName="employees" baseColumnNames="department_id"
+                                 referencedTableName="departments" referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint constraintName="fk_employees_interview_cycle_id"
+                                 baseTableName="employees" baseColumnNames="interview_cycle_id"
+                                 referencedTableName="interview_cycle" referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint constraintName="fk_sprints_initiator_id"
+                                 baseTableName="sprints" baseColumnNames="initiator_id"
+                                 referencedTableName="employees" referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint constraintName="fk_sprints_team_id"
+                                 baseTableName="sprints" baseColumnNames="team_id"
+                                 referencedTableName="teams" referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint constraintName="fk_tasks_sprint_id"
+                                 baseTableName="tasks" baseColumnNames="sprint_id"
+                                 referencedTableName="sprints" referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint constraintName="fk_tasks_assigned_id"
+                                 baseTableName="tasks" baseColumnNames="assigned_id"
+                                 referencedTableName="employees" referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint constraintName="fk_duties_employee_id"
+                                 baseTableName="duties" baseColumnNames="employee_id"
+                                 referencedTableName="employees" referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint constraintName="fk_duties_approver_id"
+                                 baseTableName="duties" baseColumnNames="approver_id"
+                                 referencedTableName="employees" referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint constraintName="fk_employees_teams_employee_id"
+                                 baseTableName="employees_teams" baseColumnNames="employee_id"
+                                 referencedTableName="employees" referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint constraintName="fk_employees_teams_team_id"
+                                 baseTableName="employees_teams" baseColumnNames="team_id"
+                                 referencedTableName="teams" referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint constraintName="fk_employees_trainings_employee_id"
+                                 baseTableName="employees_trainings" baseColumnNames="employee_id"
+                                 referencedTableName="employees" referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint constraintName="fk_employees_trainings_training_id"
+                                 baseTableName="employees_trainings" baseColumnNames="training_id"
+                                 referencedTableName="trainings" referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint constraintName="fk_interview_applications_candidate_id"
+                                 baseTableName="interview_applications" baseColumnNames="candidate_id"
+                                 referencedTableName="interview_candidates" referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint constraintName="fk_interview_applications_department_id"
+                                 baseTableName="interview_applications" baseColumnNames="department_id"
+                                 referencedTableName="departments" referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint constraintName="fk_interview_applications_referral_employee_id"
+                                 baseTableName="interview_applications" baseColumnNames="referral_employee_id"
+                                 referencedTableName="employees" referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint constraintName="fk_interview_cycle_application_id"
+                                 baseTableName="interview_cycle" baseColumnNames="application_id"
+                                 referencedTableName="interview_applications" referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint constraintName="fk_interview_interview_cycle_id"
+                                 baseTableName="interview" baseColumnNames="interview_cycle_id"
+                                 referencedTableName="interview_cycle" referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint constraintName="fk_interview_interviewer_id"
+                                 baseTableName="interview" baseColumnNames="interviewer_id"
+                                 referencedTableName="employees" referencedColumnNames="id"/>
+    </changeSet>
+
+    <!-- Add check constraints -->
+    <changeSet id="3" author="hazem">
+        <sql>
+            ALTER TABLE departments ADD CONSTRAINT chk_departments_type
+            CHECK (type IN ('flat', 'team_based'));
+        </sql>
+
+        <sql>
+            ALTER TABLE employees ADD CONSTRAINT chk_employees_role
+            CHECK (role IN ('normal', 'admin', 'manager', 'team_lead', 'hr', 'po'));
+        </sql>
+
+        <sql>
+            ALTER TABLE tasks ADD CONSTRAINT chk_tasks_status
+            CHECK (status IN ('todo', 'in_progress', 'done'));
+        </sql>
+
+        <sql>
+            ALTER TABLE duties ADD CONSTRAINT chk_duties_status
+            CHECK (status IN ('pending', 'approved', 'rejected'));
+        </sql>
+
+        <sql>
+            ALTER TABLE employees_teams ADD CONSTRAINT chk_employees_teams_role
+            CHECK (role IN ('junior', 'mid_level', 'senior'));
+        </sql>
+
+        <sql>
+            ALTER TABLE interview_applications ADD CONSTRAINT chk_interview_applications_referral_type
+            CHECK (referral_type IN ('internal', 'website', 'linkedin'));
+        </sql>
+
+        <sql>
+            ALTER TABLE interview_applications ADD CONSTRAINT chk_interview_applications_position
+            CHECK (position IN ('junior', 'mid', 'senior'));
+        </sql>
+
+        <sql>
+            ALTER TABLE interview_cycle ADD CONSTRAINT chk_interview_cycle_status
+            CHECK (status IN ('in_progress', 'accepted', 'rejected'));
+        </sql>
+
+        <sql>
+            ALTER TABLE interview ADD CONSTRAINT chk_interview_type
+            CHECK (type IN ('technical', 'hr'));
+        </sql>
+    </changeSet>
+</databaseChangeLog>
