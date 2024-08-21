@@ -1,6 +1,5 @@
 package com.oie.cms.services;
 
-import com.oie.cms.dtos.employee.ReadEmployeeResDto;
 import com.oie.cms.dtos.team.AddTeamMemberReqDto;
 import com.oie.cms.dtos.team.AddTeamReqDto;
 import com.oie.cms.dtos.team.AddTeamResDto;
@@ -10,7 +9,6 @@ import com.oie.cms.entities.team.TeamMembership;
 import com.oie.cms.enums.EmployeeRole;
 import com.oie.cms.exceptions.ConflictBusinessException;
 import com.oie.cms.exceptions.NotFoundBusinessException;
-import com.oie.cms.mappers.IEmployeeMapper;
 import com.oie.cms.mappers.ITeamMapper;
 import com.oie.cms.repositories.department.ITeamBasedDepartmentRepository;
 import com.oie.cms.repositories.employee.IEmployeeRepository;
@@ -33,7 +31,6 @@ import static java.lang.String.format;
 @Log4j2
 public class TeamService {
     private final ITeamMapper teamMapper;
-    private final IEmployeeMapper employeeMapper;
     private final ITeamRepository teamRepository;
     private final ITeamBasedDepartmentRepository teamBasedDepartmentRepository;
     private final ITeamLeadRepository teamLeadRepository;
