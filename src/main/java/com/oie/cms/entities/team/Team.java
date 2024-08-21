@@ -2,8 +2,8 @@ package com.oie.cms.entities.team;
 
 import com.oie.cms.entities.BaseEntity;
 import com.oie.cms.entities.department.TeamBasedDepartment;
+import com.oie.cms.entities.employee.Employee;
 import com.oie.cms.entities.employee.TeamLead;
-import com.oie.cms.entities.employee.TeamMember;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -31,6 +31,6 @@ public class Team extends BaseEntity {
             joinColumns = @JoinColumn(name = "team_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "employee_id", referencedColumnName = "id")
     )
-    
-    private List<TeamMember> members;
+
+    private List<Employee> members;
 }

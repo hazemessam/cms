@@ -9,5 +9,5 @@ import lombok.Setter;
 @DiscriminatorValue("hr")
 @Getter
 @Setter
-public class Hr extends TeamMember {
+public class Hr extends Employee {
 }

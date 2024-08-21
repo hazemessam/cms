@@ -3,7 +3,7 @@ package com.oie.cms.controllers;
 import com.oie.cms.dtos.common.PaginationResDto;
 import com.oie.cms.dtos.department.*;
 import com.oie.cms.dtos.employee.ReadEmployeeResDto;
-import com.oie.cms.dtos.employee.ReadEmployeesReqDto;
+import com.oie.cms.dtos.employee.EmployeesFilterDto;
 import com.oie.cms.dtos.team.AddTeamReqDto;
 import com.oie.cms.dtos.team.AddTeamResDto;
 import com.oie.cms.dtos.team.ReadTeamResDto;
@@ -64,7 +64,7 @@ public class DepartmentController {
     public ResponseEntity<PaginationResDto<ReadEmployeeResDto>> getDepartmentEmployees(
             @PathVariable Long deptId,
             Pageable paginationOptions) {
-        var deptFilter = ReadEmployeesReqDto.builder().deptId(deptId).build();
+        var deptFilter = EmployeesFilterDto.builder().deptId(deptId).build();
         return ResponseEntity.status(HttpStatus.OK)
                 .body(employeeService.getEmployees(deptFilter, paginationOptions));
     }

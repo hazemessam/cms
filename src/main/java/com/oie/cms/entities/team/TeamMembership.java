@@ -15,7 +15,7 @@ import lombok.*;
 public class TeamMemberAssociation extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "employee_id", referencedColumnName = "id")
-    private TeamMember member;
+    private Employee member;
 
     @ManyToOne
     @JoinColumn(name = "team_id", referencedColumnName = "id")

@@ -9,5 +9,5 @@ import lombok.Setter;
 @DiscriminatorValue("team_lead")
 @Getter
 @Setter
-public class TeamLead extends TeamMember {
+public class TeamLead extends Employee {
 }
