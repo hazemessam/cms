@@ -3,7 +3,7 @@ package com.oie.cms.services;
 import com.oie.cms.dtos.common.PaginationResDto;
 import com.oie.cms.dtos.employee.*;
 import com.oie.cms.exceptions.NotFoundBusinessException;
-import com.oie.cms.repositories.department.IDepartmentRepository;;
+import com.oie.cms.repositories.department.IDepartmentRepository;
 import com.oie.cms.repositories.employee.IEmployeeCustomRepository;
 import com.oie.cms.repositories.employee.IEmployeeRepository;
 import com.oie.cms.mappers.IEmployeeMapper;

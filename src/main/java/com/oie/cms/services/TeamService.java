@@ -99,14 +99,6 @@ public class TeamService {
         return AddTeamResDto.builder().id(team.getId()).build();
     }
 
-    public List<ReadEmployeeResDto> getTeamMembers(Long teamId) {
-        var team = teamRepository.findById(teamId)
-                .orElseThrow(() -> new NotFoundBusinessException(
-                        format("There is no team with id %d", teamId)));
-
-        return employeeMapper.mapToDto(team.getMembers());
-    }
-
     public void addTeamMember(Long teamId, AddTeamMemberReqDto addTeamMemberDto) {
         var team = teamRepository.findById(teamId)
                 .orElseThrow(() -> new NotFoundBusinessException(
