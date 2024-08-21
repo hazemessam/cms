@@ -8,7 +8,7 @@ import java.time.LocalDate;
 
 @Data
 @Builder
-public class ReadEmployeesReqDto {
+public class EmployeesFilterDto {
     private String name;
     private String email;
     private String phoneNumber;
@@ -16,4 +16,5 @@ public class ReadEmployeesReqDto {
     private LocalDate hiringDate;
     private EmployeeRole role;
     private Long deptId;
+    private Long teamId;
 }

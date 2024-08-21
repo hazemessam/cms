@@ -1,7 +1,7 @@
 package com.oie.cms.entities.team;
 
 import com.oie.cms.entities.BaseEntity;
-import com.oie.cms.entities.employee.TeamMember;
+import com.oie.cms.entities.employee.Employee;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,7 +12,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TeamMemberAssociation extends BaseEntity {
+public class TeamMembership extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "employee_id", referencedColumnName = "id")
     private Employee member;

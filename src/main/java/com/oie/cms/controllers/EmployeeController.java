@@ -24,7 +24,7 @@ public class EmployeeController {
 
     @GetMapping("/")
     public ResponseEntity<PaginationResDto<ReadEmployeeResDto>> getEmployees(
-            @Valid @ModelAttribute ReadEmployeesReqDto filterOptions,
+            @Valid @ModelAttribute EmployeesFilterDto filterOptions,
             Pageable paginationOptions) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(employeeService.getEmployees(filterOptions, paginationOptions));

@@ -34,11 +34,17 @@ public class EmployeeService {
     }
 
     public PaginationResDto<ReadEmployeeResDto> getEmployees(
-            ReadEmployeesReqDto filterOptions, Pageable paginationOptions) {
+            EmployeesFilterDto filterOptions, Pageable paginationOptions) {
         var deptId = filterOptions.getDeptId();
         if (deptId != null && !departmentRepository.existsById(deptId)) {
             throw new NotFoundBusinessException(format("There is no department with id %d", deptId));
         }
+
+        var teamId = filterOptions.getTeamId();
+        if (teamId != null && !teamRepository.existsById(teamId)) {
+            throw new NotFoundBusinessException(format("There is no team with id %d", teamId));
+        }
+
         return employeeMapper.mapToDto(employeeCustomRepository.findByFilter(filterOptions, paginationOptions));
     }
 

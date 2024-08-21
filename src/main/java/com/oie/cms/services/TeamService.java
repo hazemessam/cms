@@ -5,10 +5,9 @@ import com.oie.cms.dtos.team.AddTeamMemberReqDto;
 import com.oie.cms.dtos.team.AddTeamReqDto;
 import com.oie.cms.dtos.team.AddTeamResDto;
 import com.oie.cms.dtos.team.ReadTeamResDto;
-import com.oie.cms.entities.employee.Employee;
 import com.oie.cms.entities.employee.TeamLead;
-import com.oie.cms.entities.employee.TeamMember;
-import com.oie.cms.entities.team.TeamMemberAssociation;
+import com.oie.cms.entities.team.TeamMembership;
+import com.oie.cms.enums.EmployeeRole;
 import com.oie.cms.exceptions.ConflictBusinessException;
 import com.oie.cms.exceptions.NotFoundBusinessException;
 import com.oie.cms.mappers.IEmployeeMapper;
@@ -24,6 +23,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 import static java.lang.String.format;
 
@@ -87,7 +87,7 @@ public class TeamService {
                                 lead.getId()));
             }
 
-            var tma = TeamMemberAssociation.builder()
+            var tma = TeamMembership.builder()
                     .team(team)
                     .member(lead)
                     .build();
@@ -104,10 +104,7 @@ public class TeamService {
                 .orElseThrow(() -> new NotFoundBusinessException(
                         format("There is no team with id %d", teamId)));
 
-        return employeeMapper.mapToDto(
-                team.getMembers().stream()
-                        .map(m -> (Employee) m)
-                        .toList());
+        return employeeMapper.mapToDto(team.getMembers());
     }
 
     public void addTeamMember(Long teamId, AddTeamMemberReqDto addTeamMemberDto) {
@@ -120,7 +117,8 @@ public class TeamService {
                 .orElseThrow(() -> new NotFoundBusinessException(
                         format("There is no employee with id %s", empId)));
 
-        if (!(emp instanceof TeamMember)) {
+        var notAllowedRoles = Stream.of(EmployeeRole.MANAGER);
+        if (notAllowedRoles.anyMatch(role -> role.equals(emp.getRole()))) {
             throw new ConflictBusinessException(
                     format("Employee with role %s can not be a team member", emp.getRole()));
         }
@@ -152,9 +150,9 @@ public class TeamService {
 
         emp.setDepartment(team.getDepartment());
 
-        var tma =  TeamMemberAssociation.builder()
+        var tma = TeamMembership.builder()
                 .team(team)
-                .member((TeamMember) emp)
+                .member(emp)
                 .build();
         teamMemberAssociationRepository.save(tma);
     }

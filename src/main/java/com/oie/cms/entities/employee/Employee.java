@@ -2,12 +2,15 @@ package com.oie.cms.entities.employee;
 
 import com.oie.cms.entities.department.Department;
 import com.oie.cms.entities.BaseEntity;
+import com.oie.cms.entities.team.Team;
+import com.oie.cms.entities.team.TeamMembership;
 import com.oie.cms.enums.EmployeeRole;
 import com.oie.cms.utils.converters.EmployeeRoleConverter;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "employees")
@@ -39,4 +42,10 @@ public abstract class Employee extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "department_id", referencedColumnName = "id")
     private Department department;
+
+    @ManyToMany(mappedBy = "members")
+    private List<Team> teams;
+
+    @OneToMany(mappedBy = "member")
+    private List<TeamMembership> teamMemberships;
 }

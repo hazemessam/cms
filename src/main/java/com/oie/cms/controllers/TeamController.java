@@ -1,16 +1,18 @@
 package com.oie.cms.controllers;
 
+import com.oie.cms.dtos.common.PaginationResDto;
 import com.oie.cms.dtos.employee.ReadEmployeeResDto;
+import com.oie.cms.dtos.employee.EmployeesFilterDto;
 import com.oie.cms.dtos.team.AddTeamMemberReqDto;
 import com.oie.cms.dtos.team.ReadTeamResDto;
+import com.oie.cms.services.EmployeeService;
 import com.oie.cms.services.TeamService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /*
     TODO:
@@ -23,6 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TeamController {
     private final TeamService teamService;
+    private final EmployeeService employeeService;
 
     @GetMapping("/{teamId}")
     public ResponseEntity<ReadTeamResDto> getTeamById(@PathVariable Long teamId) {
@@ -37,10 +40,13 @@ public class TeamController {
     }
 
     @GetMapping("/{teamId}/members")
-    public ResponseEntity<List<ReadEmployeeResDto>> getTeamMembers(
-            @PathVariable Long teamId) {
+    public ResponseEntity<PaginationResDto<ReadEmployeeResDto>> getTeamMembers(
+            @PathVariable Long teamId,
+            Pageable paginationOptions
+    ) {
+        var filter = EmployeesFilterDto.builder().teamId(teamId).build();
         return ResponseEntity.status(HttpStatus.OK)
-                .body(teamService.getTeamMembers(teamId));
+                .body(employeeService.getEmployees(filter, paginationOptions));
     }
 
     @PostMapping("/{teamId}/members")

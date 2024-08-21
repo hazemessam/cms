@@ -1,8 +1,9 @@
 package com.oie.cms.repositories.employee;
 
-import com.oie.cms.dtos.employee.ReadEmployeesReqDto;
+import com.oie.cms.dtos.employee.EmployeesFilterDto;
 import com.oie.cms.entities.employee.Employee;
 import com.oie.cms.entities.employee.QEmployee;
+import com.oie.cms.entities.team.QTeamMembership;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
@@ -20,7 +21,7 @@ public class EmployeeCustomRepository implements IEmployeeCustomRepository {
     }
 
     @Override
-    public Page<Employee> findByFilter(ReadEmployeesReqDto filterOptions, Pageable paginationOptions) {
+    public Page<Employee> findByFilter(EmployeesFilterDto filterOptions, Pageable paginationOptions) {
         var employee = QEmployee.employee;
 
         var filter = new BooleanBuilder();
@@ -33,6 +34,10 @@ public class EmployeeCustomRepository implements IEmployeeCustomRepository {
         if (deptId != null)
             filter.and(employee.department.id.eq(deptId));
 
+        var teamId = filterOptions.getTeamId();
+        if (teamId != null)
+            filter.and(employee.teamMemberships.any().team.id.eq(teamId));
+
         var totalCount = queryFactory
                 .select(employee.count())
                 .from(employee)
@@ -41,7 +46,6 @@ public class EmployeeCustomRepository implements IEmployeeCustomRepository {
 
         var employees = queryFactory
                 .selectFrom(employee)
-                .leftJoin(employee.department)
                 .where(filter)
                 .offset(paginationOptions.getOffset())
                 .limit(paginationOptions.getPageSize())
