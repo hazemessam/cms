@@ -27,9 +27,11 @@
                 <constraints nullable="false"/>
             </column>
             <column name="updated_at" type="TIMESTAMP"/>
+            <column name="created_by" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="BIGINT"/>
         </createTable>
-
-        <createSequence sequenceName="employees_id_seq"/>
 
         <createTable tableName="teams">
             <column name="id" type="BIGINT" autoIncrement="true">
@@ -51,6 +53,10 @@
                 <constraints nullable="false"/>
             </column>
             <column name="updated_at" type="TIMESTAMP"/>
+            <column name="created_by" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="BIGINT"/>
         </createTable>
 
         <createTable tableName="employees">
@@ -87,10 +93,10 @@
             <column name="interview_cycle_id" type="BIGINT"/>
 
             <!-- Auditing Columns-->
-            <column name="created_at" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
+            <column name="created_at" type="TIMESTAMP"/>
             <column name="updated_at" type="TIMESTAMP"/>
+            <column name="created_by" type="BIGINT"/>
+            <column name="updated_by" type="BIGINT"/>
         </createTable>
 
         <createTable tableName="sprints">
@@ -111,9 +117,6 @@
             </column>
 
             <!-- Foreign Key Columns-->
-            <column name="initiator_id" type="BIGINT">
-                <constraints nullable="false"/>
-            </column>
             <column name="team_id" type="BIGINT"/>
 
             <!-- Auditing Columns-->
@@ -121,6 +124,10 @@
                 <constraints nullable="false"/>
             </column>
             <column name="updated_at" type="TIMESTAMP"/>
+            <column name="created_by" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="BIGINT"/>
         </createTable>
 
         <createTable tableName="tasks">
@@ -148,6 +155,10 @@
                 <constraints nullable="false"/>
             </column>
             <column name="updated_at" type="TIMESTAMP"/>
+            <column name="created_by" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="BIGINT"/>
         </createTable>
 
         <createTable tableName="duties">
@@ -181,6 +192,10 @@
                 <constraints nullable="false"/>
             </column>
             <column name="updated_at" type="TIMESTAMP"/>
+            <column name="created_by" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="BIGINT"/>
         </createTable>
 
         <createTable tableName="employees_teams">
@@ -188,6 +203,9 @@
                 <constraints primaryKey="true" nullable="false" unique="true"/>
             </column>
             <column name="role" type="VARCHAR(255)"/>
+            <column name="deleted" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
 
             <!-- Foreign Key Columns-->
             <column name="employee_id" type="BIGINT">
@@ -202,6 +220,10 @@
                 <constraints nullable="false"/>
             </column>
             <column name="updated_at" type="TIMESTAMP"/>
+            <column name="created_by" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="BIGINT"/>
         </createTable>
 
         <createTable tableName="trainings">
@@ -223,6 +245,10 @@
                 <constraints nullable="false"/>
             </column>
             <column name="updated_at" type="TIMESTAMP"/>
+            <column name="created_by" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="BIGINT"/>
         </createTable>
 
         <createTable tableName="employees_trainings">
@@ -249,6 +275,10 @@
                 <constraints nullable="false"/>
             </column>
             <column name="updated_at" type="TIMESTAMP"/>
+            <column name="created_by" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="BIGINT"/>
         </createTable>
 
         <createTable tableName="interview_candidates">
@@ -269,10 +299,10 @@
             </column>
 
             <!-- Auditing Columns-->
-            <column name="created_at" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
+            <column name="created_at" type="TIMESTAMP"/>
             <column name="updated_at" type="TIMESTAMP"/>
+            <column name="created_by" type="BIGINT"/>
+            <column name="updated_by" type="BIGINT"/>
         </createTable>
 
         <createTable tableName="interview_applications">
@@ -302,10 +332,10 @@
             <column name="referral_employee_id" type="BIGINT"/>
 
             <!-- Auditing Columns-->
-            <column name="created_at" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
+            <column name="created_at" type="TIMESTAMP"/>
             <column name="updated_at" type="TIMESTAMP"/>
+            <column name="created_by" type="BIGINT"/>
+            <column name="updated_by" type="BIGINT"/>
         </createTable>
 
         <createTable tableName="interview_cycle">
@@ -330,6 +360,10 @@
                 <constraints nullable="false"/>
             </column>
             <column name="updated_at" type="TIMESTAMP"/>
+            <column name="created_by" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="BIGINT"/>
         </createTable>
 
         <createTable tableName="interview">
@@ -360,6 +394,10 @@
                 <constraints nullable="false"/>
             </column>
             <column name="updated_at" type="TIMESTAMP"/>
+            <column name="created_by" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="BIGINT"/>
         </createTable>
     </changeSet>
 
@@ -367,6 +405,14 @@
     <changeSet id="2" author="hazem">
         <addForeignKeyConstraint constraintName="fk_departments_manager_id"
                                  baseTableName="departments" baseColumnNames="manager_id"
+                                 referencedTableName="employees" referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint constraintName="fk_departments_create_by"
+                                 baseTableName="departments" baseColumnNames="created_by"
+                                 referencedTableName="employees" referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint constraintName="fk_departments_updated_by"
+                                 baseTableName="departments" baseColumnNames="updated_by"
                                  referencedTableName="employees" referencedColumnNames="id"/>
 
         <addForeignKeyConstraint constraintName="fk_teams_lead_id"
@@ -377,6 +423,14 @@
                                  baseTableName="teams" baseColumnNames="department_id"
                                  referencedTableName="departments" referencedColumnNames="id"/>
 
+        <addForeignKeyConstraint constraintName="fk_teams_created_by"
+                                 baseTableName="teams" baseColumnNames="created_by"
+                                 referencedTableName="employees" referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint constraintName="fk_teams_updated_by"
+                                 baseTableName="teams" baseColumnNames="updated_by"
+                                 referencedTableName="employees" referencedColumnNames="id"/>
+
         <addForeignKeyConstraint constraintName="fk_employees_department_id"
                                  baseTableName="employees" baseColumnNames="department_id"
                                  referencedTableName="departments" referencedColumnNames="id"/>
@@ -385,13 +439,25 @@
                                  baseTableName="employees" baseColumnNames="interview_cycle_id"
                                  referencedTableName="interview_cycle" referencedColumnNames="id"/>
 
-        <addForeignKeyConstraint constraintName="fk_sprints_initiator_id"
-                                 baseTableName="sprints" baseColumnNames="initiator_id"
+        <addForeignKeyConstraint constraintName="fk_employees_created_by"
+                                 baseTableName="employees" baseColumnNames="created_by"
+                                 referencedTableName="employees" referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint constraintName="fk_employees_updated_by"
+                                 baseTableName="employees" baseColumnNames="updated_by"
                                  referencedTableName="employees" referencedColumnNames="id"/>
 
         <addForeignKeyConstraint constraintName="fk_sprints_team_id"
                                  baseTableName="sprints" baseColumnNames="team_id"
                                  referencedTableName="teams" referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint constraintName="fk_sprints_created_by"
+                                 baseTableName="sprints" baseColumnNames="created_by"
+                                 referencedTableName="employees" referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint constraintName="fk_sprints_updated_by"
+                                 baseTableName="sprints" baseColumnNames="updated_by"
+                                 referencedTableName="employees" referencedColumnNames="id"/>
 
         <addForeignKeyConstraint constraintName="fk_tasks_sprint_id"
                                  baseTableName="tasks" baseColumnNames="sprint_id"
@@ -399,6 +465,14 @@
 
         <addForeignKeyConstraint constraintName="fk_tasks_assigned_id"
                                  baseTableName="tasks" baseColumnNames="assigned_id"
+                                 referencedTableName="employees" referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint constraintName="fk_tasks_created_by"
+                                 baseTableName="tasks" baseColumnNames="created_by"
+                                 referencedTableName="employees" referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint constraintName="fk_tasks_updated_by"
+                                 baseTableName="tasks" baseColumnNames="updated_by"
                                  referencedTableName="employees" referencedColumnNames="id"/>
 
         <addForeignKeyConstraint constraintName="fk_duties_employee_id"
@@ -409,6 +483,14 @@
                                  baseTableName="duties" baseColumnNames="approver_id"
                                  referencedTableName="employees" referencedColumnNames="id"/>
 
+        <addForeignKeyConstraint constraintName="fk_duties_created_by"
+                                 baseTableName="duties" baseColumnNames="created_by"
+                                 referencedTableName="employees" referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint constraintName="fk_duties_updated_by"
+                                 baseTableName="duties" baseColumnNames="updated_by"
+                                 referencedTableName="employees" referencedColumnNames="id"/>
+
         <addForeignKeyConstraint constraintName="fk_employees_teams_employee_id"
                                  baseTableName="employees_teams" baseColumnNames="employee_id"
                                  referencedTableName="employees" referencedColumnNames="id"/>
@@ -417,6 +499,14 @@
                                  baseTableName="employees_teams" baseColumnNames="team_id"
                                  referencedTableName="teams" referencedColumnNames="id"/>
 
+        <addForeignKeyConstraint constraintName="fk_employees_teams_created_by"
+                                 baseTableName="employees_teams" baseColumnNames="created_by"
+                                 referencedTableName="employees" referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint constraintName="fk_employees_teams_updated_by"
+                                 baseTableName="employees_teams" baseColumnNames="updated_by"
+                                 referencedTableName="employees" referencedColumnNames="id"/>
+
         <addForeignKeyConstraint constraintName="fk_employees_trainings_employee_id"
                                  baseTableName="employees_trainings" baseColumnNames="employee_id"
                                  referencedTableName="employees" referencedColumnNames="id"/>
@@ -424,6 +514,14 @@
         <addForeignKeyConstraint constraintName="fk_employees_trainings_training_id"
                                  baseTableName="employees_trainings" baseColumnNames="training_id"
                                  referencedTableName="trainings" referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint constraintName="fk_employees_trainings_created_by"
+                                 baseTableName="employees_trainings" baseColumnNames="created_by"
+                                 referencedTableName="employees" referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint constraintName="fk_employees_trainings_updated_by"
+                                 baseTableName="employees_trainings" baseColumnNames="updated_by"
+                                 referencedTableName="employees" referencedColumnNames="id"/>
 
         <addForeignKeyConstraint constraintName="fk_interview_applications_candidate_id"
                                  baseTableName="interview_applications" baseColumnNames="candidate_id"
@@ -437,9 +535,25 @@
                                  baseTableName="interview_applications" baseColumnNames="referral_employee_id"
                                  referencedTableName="employees" referencedColumnNames="id"/>
 
+        <addForeignKeyConstraint constraintName="fk_interview_applications_created_by"
+                                 baseTableName="interview_applications" baseColumnNames="created_by"
+                                 referencedTableName="employees" referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint constraintName="fk_interview_applications_updated_by"
+                                 baseTableName="interview_applications" baseColumnNames="updated_by"
+                                 referencedTableName="employees" referencedColumnNames="id"/>
+
         <addForeignKeyConstraint constraintName="fk_interview_cycle_application_id"
                                  baseTableName="interview_cycle" baseColumnNames="application_id"
                                  referencedTableName="interview_applications" referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint constraintName="fk_interview_cycle_created_by"
+                                 baseTableName="interview_cycle" baseColumnNames="created_by"
+                                 referencedTableName="employees" referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint constraintName="fk_interview_cycle_updated_by"
+                                 baseTableName="interview_cycle" baseColumnNames="updated_by"
+                                 referencedTableName="employees" referencedColumnNames="id"/>
 
         <addForeignKeyConstraint constraintName="fk_interview_interview_cycle_id"
                                  baseTableName="interview" baseColumnNames="interview_cycle_id"
@@ -447,6 +561,14 @@
 
         <addForeignKeyConstraint constraintName="fk_interview_interviewer_id"
                                  baseTableName="interview" baseColumnNames="interviewer_id"
+                                 referencedTableName="employees" referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint constraintName="fk_interview_created_by"
+                                 baseTableName="interview" baseColumnNames="created_by"
+                                 referencedTableName="employees" referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint constraintName="fk_interview_updated_by"
+                                 baseTableName="interview" baseColumnNames="updated_by"
                                  referencedTableName="employees" referencedColumnNames="id"/>
     </changeSet>
 
