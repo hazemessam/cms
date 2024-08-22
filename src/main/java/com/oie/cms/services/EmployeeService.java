@@ -12,6 +12,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import static java.lang.String.format;
@@ -26,6 +27,7 @@ public class EmployeeService {
     private final IEmployeeCustomRepository employeeCustomRepository;
     private final IDepartmentRepository departmentRepository;
     private final ITeamRepository teamRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public ReadEmployeeResDto getEmployeeById(Long id) {
         return employeeRepository.findById(id)
@@ -50,6 +52,8 @@ public class EmployeeService {
 
     public AddEmployeeResDto addEmployee(AddEmployeeReqDto addEmpDto) {
         var emp = employeeMapper.mapToEntity(addEmpDto);
+        emp.setPassword(passwordEncoder.encode(emp.getPassword()));
+
         Long empId = employeeRepository.save(emp).getId();
         return AddEmployeeResDto.builder().id(empId).build();
     }
@@ -63,8 +67,7 @@ public class EmployeeService {
         if (updateEmpDto.getPhoneNumber() != null) emp.setPhoneNumber(updateEmpDto.getPhoneNumber());
         if (updateEmpDto.getNationalId() != null) emp.setNationalId(updateEmpDto.getNationalId());
         if (updateEmpDto.getHiringDate() != null) emp.setHiringDate(updateEmpDto.getHiringDate());
-
-        // TODO: Allow updating password after implementing the authentication
+        if (updateEmpDto.getPassword() != null) emp.setPassword(passwordEncoder.encode(updateEmpDto.getPassword()));
 
         employeeRepository.save(emp);
     }

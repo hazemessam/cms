@@ -16,6 +16,9 @@ public class UpdateEmployeeReqDto {
     @Email(message = "Invalid email format")
     private String email;
 
+    @Size(min = 8, max = 100, message = "Password must be between 8 and 100 characters")
+    private String password;
+
     @Pattern(regexp = "^\\+?[0-9]{10,14}$", message = "Invalid phone number format")
     private String phoneNumber;
 

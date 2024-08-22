@@ -6,6 +6,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageConversionException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -17,15 +18,16 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 @Log4j2
 public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorDto> handleBusinessException(Exception ex) {
-        log.info(ex);
+    public ResponseEntity<ErrorDto> handleException(Exception ex) {
+        log.error(ex);
 
         HttpStatus errorStatus;
         if (ex instanceof MethodArgumentNotValidException
                 || ex instanceof MethodArgumentTypeMismatchException
-                || ex instanceof HttpMessageConversionException
-        ) {
+                || ex instanceof HttpMessageConversionException) {
             errorStatus = HttpStatus.BAD_REQUEST;
+        } else if (ex instanceof AuthenticationException) {
+            errorStatus = HttpStatus.UNAUTHORIZED;
         } else if (ex instanceof NotFoundBusinessException) {
             errorStatus = HttpStatus.NOT_FOUND;
         } else if (ex instanceof HttpRequestMethodNotSupportedException) {
