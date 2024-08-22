@@ -27,26 +27,26 @@ public class DepartmentController {
     private final EmployeeService employeeService;
     private final TeamService teamService;
 
-    @GetMapping("/{deptId}")
+    @GetMapping("{deptId}")
     public ResponseEntity<ReadDepartmentResDto> getDepartmentById(@PathVariable Long deptId) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(departmentService.getDepartmentById(deptId));
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<List<ReadDepartmentResDto>> getDepartments() {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(departmentService.getDepartments());
     }
 
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<AddDepartmentResDto> addDepartment(
             @Valid @RequestBody AddDepartmentReqDto paginationOptions) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(departmentService.addDepartment(paginationOptions));
     }
 
-    @PatchMapping("/{deptId}")
+    @PatchMapping("{deptId}")
     public ResponseEntity<Void> updateDepartment(
             @PathVariable Long deptId,
             @Valid @RequestBody UpdateDepartmentReqDto updateDeptDto) {
@@ -54,13 +54,13 @@ public class DepartmentController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @DeleteMapping("/{deptId}")
+    @DeleteMapping("{deptId}")
     public ResponseEntity<Void> deleteDepartmentById(@PathVariable Long deptId) {
         departmentService.deleteDepartmentById(deptId);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @GetMapping("/{deptId}/employees")
+    @GetMapping("{deptId}/employees")
     public ResponseEntity<PaginationResDto<ReadEmployeeResDto>> getDepartmentEmployees(
             @PathVariable Long deptId,
             Pageable paginationOptions) {
@@ -69,7 +69,7 @@ public class DepartmentController {
                 .body(employeeService.getEmployees(deptFilter, paginationOptions));
     }
 
-    @PostMapping("/{deptId}/employees")
+    @PostMapping("{deptId}/employees")
     public ResponseEntity<Void> addEmployeeToFlatDepartment(
             @PathVariable Long deptId,
             @Valid @RequestBody AddFlatDepartmentEmployeeReqDto addEmpDto
@@ -78,7 +78,7 @@ public class DepartmentController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @DeleteMapping("/{deptId}/employees/{empId}")
+    @DeleteMapping("{deptId}/employees/{empId}")
     public ResponseEntity<Void> removeFlatDepartmentEmployee(
             @PathVariable Long deptId,
             @PathVariable Long empId) {
@@ -86,13 +86,13 @@ public class DepartmentController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @GetMapping("/{deptId}/teams")
+    @GetMapping("{deptId}/teams")
     public ResponseEntity<List<ReadTeamResDto>> getDepartmentTeams(@PathVariable Long deptId) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(teamService.getTeamsByDeptId(deptId));
     }
 
-    @PostMapping("/{deptId}/teams")
+    @PostMapping("{deptId}/teams")
     public ResponseEntity<AddTeamResDto> addTeamToDepartment(
             @PathVariable Long deptId,
             @Valid @RequestBody AddTeamReqDto addTeamDto

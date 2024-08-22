@@ -27,19 +27,19 @@ public class TeamController {
     private final TeamService teamService;
     private final EmployeeService employeeService;
 
-    @GetMapping("/{teamId}")
+    @GetMapping("{teamId}")
     public ResponseEntity<ReadTeamResDto> getTeamById(@PathVariable Long teamId) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(teamService.getTeamById(teamId));
     }
 
-    @DeleteMapping("/{teamId}")
+    @DeleteMapping("{teamId}")
     public ResponseEntity<Void> deleteById(@PathVariable Long teamId) {
         teamService.deleteTeamById(teamId);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @GetMapping("/{teamId}/members")
+    @GetMapping("{teamId}/members")
     public ResponseEntity<PaginationResDto<ReadEmployeeResDto>> getTeamMembers(
             @PathVariable Long teamId,
             Pageable paginationOptions
@@ -49,7 +49,7 @@ public class TeamController {
                 .body(employeeService.getEmployees(filter, paginationOptions));
     }
 
-    @PostMapping("/{teamId}/members")
+    @PostMapping("{teamId}/members")
     public ResponseEntity<Void> addTeamMember(
             @PathVariable Long teamId,
             @Valid @RequestBody AddTeamMemberReqDto addTeamMemberDto) {

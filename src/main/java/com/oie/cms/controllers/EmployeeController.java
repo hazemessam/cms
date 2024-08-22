@@ -16,13 +16,13 @@ import org.springframework.web.bind.annotation.*;
 public class EmployeeController {
     private final EmployeeService employeeService;
 
-    @GetMapping("/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<ReadEmployeeResDto> getEmployeeById(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(employeeService.getEmployeeById(id));
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<PaginationResDto<ReadEmployeeResDto>> getEmployees(
             @Valid @ModelAttribute EmployeesFilterDto filterOptions,
             Pageable paginationOptions) {
@@ -30,13 +30,13 @@ public class EmployeeController {
                 .body(employeeService.getEmployees(filterOptions, paginationOptions));
     }
 
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<AddEmployeeResDto> addEmployee(@Valid @RequestBody AddEmployeeReqDto addEmpDto) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(employeeService.addEmployee(addEmpDto));
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping("{id}")
     public ResponseEntity<Void> updateEmployee(
             @PathVariable Long id,
             @Valid @RequestBody UpdateEmployeeReqDto updateEmpDto) {
@@ -44,7 +44,7 @@ public class EmployeeController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteEmployeeById(@PathVariable Long id) {
         employeeService.deleteEmployeeById(id);
         return ResponseEntity.status(HttpStatus.OK).build();
