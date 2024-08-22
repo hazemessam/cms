@@ -1,13 +1,15 @@
 package com.oie.cms;
 
+import com.oie.cms.utils.AdminUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication
-@EnableJpaAuditing
 public class CmsApplication {
-	public static void main(String[] args) {
-		SpringApplication.run(CmsApplication.class, args);
-	}
+    public static void main(String[] args) {
+        var ctx = SpringApplication.run(CmsApplication.class, args);
+
+        var adminUtil = ctx.getBean(AdminUtil.class);
+        adminUtil.generateAdminHash();
+    }
 }
