@@ -1,9 +1,12 @@
 package com.oie.cms.entities;
 
+import com.oie.cms.entities.employee.Employee;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SoftDelete;
+import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -23,9 +26,17 @@ public abstract class BaseEntity {
     @Column(updatable = false)
     private Instant createdAt;
 
-    @Column(insertable = false)
     @LastModifiedDate
+    @Column(insertable = false)
     private Instant updatedAt;
 
-    // TODO: Implement createdBy and updatedBy after implementing authentication.
+    @CreatedBy
+    @ManyToOne
+    @JoinColumn(name = "created_by", referencedColumnName = "id", updatable = false)
+    private Employee createdBy;
+
+    @LastModifiedBy
+    @ManyToOne
+    @JoinColumn(name = "updated_by", referencedColumnName = "id", insertable = false)
+    private Employee updatedBy;
 }
