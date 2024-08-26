@@ -96,4 +96,14 @@ public class HiringService {
         var cycleId = interviewCycleRepository.save(cycle).getId();
         return AddInterviewCycleResDto.builder().id(cycleId).build();
     }
+
+    public void updateInterviewCycle(Long cycleId, UpdateInterviewCycleReqDto updateDto) {
+        var cycle = interviewCycleRepository.findById(cycleId)
+                .orElseThrow(() -> new NotFoundBusinessException(
+                        format("There is no interview cycle with id %s", cycleId)));
+
+        if (updateDto.getStatus() != null) cycle.setStatus(updateDto.getStatus());
+
+        interviewCycleRepository.save(cycle);
+    }
 }

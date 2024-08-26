@@ -50,4 +50,11 @@ public class HiringController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(hiringService.addInterviewCycle(cycleReqDto));
     }
+
+    @PatchMapping("cycles/{cycleId}")
+    public ResponseEntity<Void> updateInterviewCycle(
+            @PathVariable Long cycleId, @Valid @RequestBody UpdateInterviewCycleReqDto updateDto) {
+        hiringService.updateInterviewCycle(cycleId, updateDto);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 }
