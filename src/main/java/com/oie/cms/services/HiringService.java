@@ -76,6 +76,11 @@ public class HiringService {
         return interviewCandidateMapper.mapToDto(candidates);
     }
 
+    public PaginationResDto<ReadInterviewCycleResDto> getInterviewCycles(Pageable paginationOptions) {
+        var cycles = interviewCycleRepository.findAll(paginationOptions);
+        return interviewCycleMapper.mapToDto(cycles);
+    }
+
     public AddInterviewCycleResDto addInterviewCycle(AddInterviewCycleReqDto addCycleReqDto) {
         var application = interviewApplicationRepository.findById(addCycleReqDto.getApplicationId())
                 .orElseThrow(() -> new NotFoundBusinessException(

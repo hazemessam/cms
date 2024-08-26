@@ -37,6 +37,13 @@ public class HiringController {
                 .body(hiringService.getInterviewCandidates(paginationOptions));
     }
 
+    @GetMapping("cycles")
+    public ResponseEntity<PaginationResDto<ReadInterviewCycleResDto>> getInterviewCycles(
+            Pageable paginationOptions) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(hiringService.getInterviewCycles(paginationOptions));
+    }
+
     @PostMapping("cycles")
     public ResponseEntity<AddInterviewCycleResDto> addInterviewCycle(
             @Valid @RequestBody AddInterviewCycleReqDto cycleReqDto) {
