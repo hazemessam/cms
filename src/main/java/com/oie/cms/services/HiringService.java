@@ -5,6 +5,7 @@ import com.oie.cms.dtos.hiring.*;
 import com.oie.cms.entities.hiring.InterviewCandidate;
 import com.oie.cms.enums.InterviewCycleStatus;
 import com.oie.cms.enums.ReferralType;
+import com.oie.cms.exceptions.ConflictBusinessException;
 import com.oie.cms.exceptions.NotFoundBusinessException;
 import com.oie.cms.mappers.hiring.IInterviewApplicationMapper;
 import com.oie.cms.mappers.hiring.IInterviewCandidateMapper;
@@ -85,6 +86,11 @@ public class HiringService {
         var application = interviewApplicationRepository.findById(addCycleReqDto.getApplicationId())
                 .orElseThrow(() -> new NotFoundBusinessException(
                         format("There is no application with id %d", addCycleReqDto.getApplicationId())));
+
+        if (application.getCycle() != null) {
+            throw new ConflictBusinessException(
+                    format("Application (%s) already has an interview cycle", application.getId()));
+        }
 
         var cycle = interviewCycleMapper.mapToEntity(addCycleReqDto);
         cycle.setApplication(application);
