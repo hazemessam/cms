@@ -1,7 +1,9 @@
 package com.oie.cms.services;
 
+import com.oie.cms.dtos.common.PaginationResDto;
 import com.oie.cms.dtos.hiring.AddInterviewApplicationReqDto;
 import com.oie.cms.dtos.hiring.AddInterviewApplicationResDto;
+import com.oie.cms.dtos.hiring.ReadInterviewApplicationResDto;
 import com.oie.cms.entities.hiring.InterviewCandidate;
 import com.oie.cms.enums.ReferralType;
 import com.oie.cms.exceptions.NotFoundBusinessException;
@@ -13,6 +15,7 @@ import com.oie.cms.repositories.hiring.IInterviewApplicationRepository;
 import com.oie.cms.repositories.hiring.IInterviewCandidateRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import static java.lang.String.format;
@@ -27,6 +30,11 @@ public class HiringService {
     private final IInterviewApplicationRepository interviewApplicationRepository;
     private final IDepartmentRepository departmentRepository;
     private final IEmployeeRepository employeeRepository;
+
+    public PaginationResDto<ReadInterviewApplicationResDto> getInterviewApplications(Pageable paginationOptions) {
+        var applications = interviewApplicationRepository.findAll(paginationOptions);
+        return interviewApplicationMapper.mapToDto(applications);
+    }
 
     public AddInterviewApplicationResDto addInterviewApplication(AddInterviewApplicationReqDto applicationReqDto) {
         var existCandidate = interviewCandidateRepository.findByPhoneNumber(applicationReqDto.getPhoneNumber());
@@ -47,7 +55,6 @@ public class HiringService {
                 .orElseThrow(() -> new NotFoundBusinessException(
                         format("There is no department with id %d", deptId)));
         application.setDepartment(department);
-
 
         var referralEmployeeId = applicationReqDto.getReferralEmployeeId();
         if (applicationReqDto.getReferralType().equals(ReferralType.INTERNAL) && referralEmployeeId != null) {

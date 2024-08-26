@@ -37,7 +37,4 @@ public class InterviewApplication extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "referral_employee_id", referencedColumnName = "id")
     private Employee referralEmployee;
-
-    @OneToOne(mappedBy = "application")
-    private InterviewCycle cycle;
 }
