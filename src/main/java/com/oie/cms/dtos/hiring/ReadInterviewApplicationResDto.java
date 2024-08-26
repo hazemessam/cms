@@ -8,6 +8,7 @@ import lombok.Data;
 @Data
 @Builder
 public class ReadInterviewApplicationResDto {
+    private Long id;
     private String candidateName;
     private String candidateEmail;
     private String candidatePhoneNumber;

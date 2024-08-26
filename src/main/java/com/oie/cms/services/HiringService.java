@@ -4,6 +4,7 @@ import com.oie.cms.dtos.common.PaginationResDto;
 import com.oie.cms.dtos.hiring.AddInterviewApplicationReqDto;
 import com.oie.cms.dtos.hiring.AddInterviewApplicationResDto;
 import com.oie.cms.dtos.hiring.ReadInterviewApplicationResDto;
+import com.oie.cms.dtos.hiring.ReadInterviewCandidateResDto;
 import com.oie.cms.entities.hiring.InterviewCandidate;
 import com.oie.cms.enums.ReferralType;
 import com.oie.cms.exceptions.NotFoundBusinessException;
@@ -66,5 +67,10 @@ public class HiringService {
 
         var applicationId = interviewApplicationRepository.save(application).getId();
         return AddInterviewApplicationResDto.builder().id(applicationId).build();
+    }
+
+    public PaginationResDto<ReadInterviewCandidateResDto> getInterviewCandidates(Pageable paginationOptions) {
+        var candidates = interviewCandidateRepository.findAll(paginationOptions);
+        return interviewCandidateMapper.mapToDto(candidates);
     }
 }

@@ -4,6 +4,7 @@ import com.oie.cms.dtos.common.PaginationResDto;
 import com.oie.cms.dtos.hiring.AddInterviewApplicationReqDto;
 import com.oie.cms.dtos.hiring.AddInterviewApplicationResDto;
 import com.oie.cms.dtos.hiring.ReadInterviewApplicationResDto;
+import com.oie.cms.dtos.hiring.ReadInterviewCandidateResDto;
 import com.oie.cms.services.HiringService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -30,5 +31,12 @@ public class HiringController {
             @Valid @RequestBody AddInterviewApplicationReqDto applicationReqDto) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(hiringService.addInterviewApplication(applicationReqDto));
+    }
+
+    @GetMapping("candidates")
+    public ResponseEntity<PaginationResDto<ReadInterviewCandidateResDto>> getInterviewCandidates(
+            Pageable paginationOptions) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(hiringService.getInterviewCandidates(paginationOptions));
     }
 }
