@@ -1,6 +1,5 @@
 package com.oie.cms.entities;
 
-import com.oie.cms.entities.employee.Employee;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SoftDelete;
@@ -31,12 +30,10 @@ public abstract class BaseEntity {
     private Instant updatedAt;
 
     @CreatedBy
-    @ManyToOne
-    @JoinColumn(name = "created_by", referencedColumnName = "id", updatable = false)
-    private Employee createdBy;
+    @Column(updatable = false)
+    private Long createdBy;
 
     @LastModifiedBy
-    @ManyToOne
-    @JoinColumn(name = "updated_by", referencedColumnName = "id", insertable = false)
-    private Employee updatedBy;
+    @Column(insertable = false)
+    private Long updatedBy;
 }

@@ -14,11 +14,11 @@ import java.util.Optional;
 @EnableJpaAuditing
 public class AuditingConfig {
     @Bean
-    AuditorAware<Employee> auditorProvider() {
+    AuditorAware<Long> auditorProvider() {
         return () -> Optional.ofNullable(SecurityContextHolder
                 .getContext()
                 .getAuthentication()
                 .getPrincipal() instanceof AuthUser user
-                ? user.getEmployee() : null);
+                ? user.getEmployee().getId() : null);
     }
 }
