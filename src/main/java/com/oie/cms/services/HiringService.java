@@ -24,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.Objects;
 
 import static java.lang.String.format;
@@ -145,6 +146,32 @@ public class HiringService {
         }
 
         return AddInterviewResDto.builder().id(interview.getId()).build();
+    }
+
+    public void updateInterview(Long interviewId, UpdateInterviewReqDto updateDto) {
+        var interview = interviewRepository.findById(interviewId)
+                .orElseThrow(() -> new NotFoundBusinessException(
+                        format("There is no interview with id %d", interviewId)));
+
+        var type = updateDto.getType();
+        if (type != null) interview.setType(type);
+
+        var appointment = updateDto.getAppointment();
+        if (appointment != null) interview.setAppointment(appointment);
+
+        var interviewerId = updateDto.getInterviewerId();
+        if (interviewerId != null) {
+            var interviewer = employeeRepository.findById(interviewerId)
+                    .orElseThrow(() -> new NotFoundBusinessException(
+                            format("There is no employee with id %d", interviewerId)));
+            interview.setInterviewer(interviewer);
+        }
+
+        var rating = updateDto.getRating();
+        if (updateDto.getRating() != null) {
+            interview.setRating(rating);
+            updateInterviewCycleRating(interview.getCycle());
+        }
     }
 
     private void updateInterviewCycleRating(InterviewCycle cycle) {
