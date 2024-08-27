@@ -24,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
+import java.util.List;
 import java.util.Objects;
 
 import static java.lang.String.format;
@@ -120,6 +120,13 @@ public class HiringService {
         if (updateDto.getStatus() != null) cycle.setStatus(updateDto.getStatus());
 
         interviewCycleRepository.save(cycle);
+    }
+
+    public List<ReadInterviewResDto> getCycleInterviews(Long cycleId) {
+        var cycle = interviewCycleRepository.findById(cycleId)
+                .orElseThrow(() -> new NotFoundBusinessException(
+                        format("There is no interview cycle with id %s", cycleId)));
+        return interviewMapper.mapToDto(cycle.getInterviews());
     }
 
     public AddInterviewResDto addInterview(Long cycleId, AddInterviewReqDto interviewReqDto) {

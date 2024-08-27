@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController()
 @RequestMapping("api/hiring")
 @RequiredArgsConstructor
@@ -56,6 +58,13 @@ public class HiringController {
             @PathVariable Long cycleId, @Valid @RequestBody UpdateInterviewCycleReqDto updateDto) {
         hiringService.updateInterviewCycle(cycleId, updateDto);
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @GetMapping("cycles/{cycleId}/interviews")
+    public ResponseEntity<List<ReadInterviewResDto>> getCycleInterviews(
+            @PathVariable Long cycleId) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(hiringService.getCycleInterviews(cycleId));
     }
 
     @PostMapping("cycles/{cycleId}/interviews")
