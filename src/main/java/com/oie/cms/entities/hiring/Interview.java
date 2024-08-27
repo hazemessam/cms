@@ -17,7 +17,7 @@ import java.time.Instant;
 public class Interview extends BaseEntity {
     private Instant appointment;
 
-    private Float rating;
+    private Integer rating;
 
     @Convert(converter = InterviewTypeConverter.class)
     private InterviewType type;

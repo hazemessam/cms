@@ -57,4 +57,11 @@ public class HiringController {
         hiringService.updateInterviewCycle(cycleId, updateDto);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
+
+    @PostMapping("cycles/{cycleId}/interviews")
+    public ResponseEntity<AddInterviewResDto> addInterview(
+            @PathVariable Long cycleId, @Valid @RequestBody AddInterviewReqDto interviewReqDto) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(hiringService.addInterview(cycleId, interviewReqDto));
+    }
 }

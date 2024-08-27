@@ -23,6 +23,6 @@ public class InterviewCycle extends BaseEntity {
     @JoinColumn(name = "application_id", referencedColumnName = "id")
     private InterviewApplication application;
 
-    @OneToMany(mappedBy = "cycle")
+    @OneToMany(mappedBy = "cycle", fetch = FetchType.LAZY)
     private List<Interview> interviews;
 }

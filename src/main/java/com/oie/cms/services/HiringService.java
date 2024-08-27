@@ -2,7 +2,9 @@ package com.oie.cms.services;
 
 import com.oie.cms.dtos.common.PaginationResDto;
 import com.oie.cms.dtos.hiring.*;
+import com.oie.cms.entities.hiring.Interview;
 import com.oie.cms.entities.hiring.InterviewCandidate;
+import com.oie.cms.entities.hiring.InterviewCycle;
 import com.oie.cms.enums.InterviewCycleStatus;
 import com.oie.cms.enums.ReferralType;
 import com.oie.cms.exceptions.ConflictBusinessException;
@@ -10,15 +12,19 @@ import com.oie.cms.exceptions.NotFoundBusinessException;
 import com.oie.cms.mappers.hiring.IInterviewApplicationMapper;
 import com.oie.cms.mappers.hiring.IInterviewCandidateMapper;
 import com.oie.cms.mappers.hiring.IInterviewCycleMapper;
+import com.oie.cms.mappers.hiring.IInterviewMapper;
 import com.oie.cms.repositories.department.IDepartmentRepository;
 import com.oie.cms.repositories.employee.IEmployeeRepository;
 import com.oie.cms.repositories.hiring.IInterviewApplicationRepository;
 import com.oie.cms.repositories.hiring.IInterviewCandidateRepository;
 import com.oie.cms.repositories.hiring.IInterviewCycleRepository;
+import com.oie.cms.repositories.hiring.IInterviewRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 import static java.lang.String.format;
 
@@ -29,9 +35,11 @@ public class HiringService {
     private final IInterviewCandidateMapper interviewCandidateMapper;
     private final IInterviewApplicationMapper interviewApplicationMapper;
     private final IInterviewCycleMapper interviewCycleMapper;
+    private final IInterviewMapper interviewMapper;
     private final IInterviewCandidateRepository interviewCandidateRepository;
     private final IInterviewApplicationRepository interviewApplicationRepository;
     private final IInterviewCycleRepository interviewCycleRepository;
+    private final IInterviewRepository interviewRepository;
     private final IDepartmentRepository departmentRepository;
     private final IEmployeeRepository employeeRepository;
 
@@ -111,5 +119,47 @@ public class HiringService {
         if (updateDto.getStatus() != null) cycle.setStatus(updateDto.getStatus());
 
         interviewCycleRepository.save(cycle);
+    }
+
+    public AddInterviewResDto addInterview(Long cycleId, AddInterviewReqDto interviewReqDto) {
+        var cycle = interviewCycleRepository.findById(cycleId)
+                .orElseThrow(() -> new NotFoundBusinessException(
+                        format("There is no interview cycle with id %s", cycleId)));
+
+        var interview = interviewMapper.mapToEntity(interviewReqDto);
+        interview.setCycle(cycle);
+
+        var interviewerId = interviewReqDto.getInterviewerId();
+        if (interviewerId != null) {
+            var interviewer = employeeRepository.findById(interviewerId)
+                    .orElseThrow(() -> new NotFoundBusinessException(
+                            format("There is no employee with id %d", interviewerId)));
+
+            interview.setInterviewer(interviewer);
+        }
+
+        interviewRepository.save(interview);
+
+        if (interviewReqDto.getRating() != null) {
+            updateInterviewCycleRating(cycle);
+        }
+
+        return AddInterviewResDto.builder().id(interview.getId()).build();
+    }
+
+    private void updateInterviewCycleRating(InterviewCycle cycle) {
+        Float avgRating = null;
+
+        var interviews = cycle.getInterviews();
+        if (interviews != null && !interviews.isEmpty()) {
+            var sum = interviews.stream()
+                    .map(Interview::getRating)
+                    .filter(Objects::nonNull)
+                    .reduce(0, Integer::sum);
+
+            avgRating = (float) sum / interviews.size();
+        }
+
+        cycle.setRating(avgRating);
     }
 }

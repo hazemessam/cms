@@ -4,8 +4,7 @@
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
-
-    <include file="db/changelog/1723217176967-add-initial-schema.xml"/>
-    <include file="db/changelog/1724663237946-rename-tables.xml"/>
-    <include file="db/changelog/1724750984141-change-interview-cycle-rating-column-to-float.xml"/>
+    <changeSet id="5" author="hazem">
+        <modifyDataType tableName="interview_cycles" columnName="rating" newDataType="FLOAT"/>
+    </changeSet>
 </databaseChangeLog>
