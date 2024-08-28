@@ -1,19 +1,16 @@
 package com.oie.cms.services;
 
 import com.oie.cms.dtos.department.*;;
-import com.oie.cms.dtos.team.ReadTeamResDto;
 import com.oie.cms.entities.department.Department;
 import com.oie.cms.entities.department.FlatDepartment;
 import com.oie.cms.enums.EmployeeRole;
 import com.oie.cms.exceptions.ConflictBusinessException;
 import com.oie.cms.exceptions.NotFoundBusinessException;
 import com.oie.cms.mappers.IDepartmentMapper;
-import com.oie.cms.mappers.ITeamMapper;
 import com.oie.cms.repositories.department.IDepartmentRepository;
 import com.oie.cms.repositories.department.IFlatDepartmentRepository;
-import com.oie.cms.repositories.department.ITeamBasedDepartmentRepository;
 import com.oie.cms.repositories.employee.IEmployeeRepository;
-import com.oie.cms.repositories.employee.IMangerRepository;
+import com.oie.cms.repositories.employee.IManagerRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -30,12 +27,10 @@ import static java.lang.String.format;
 @Log4j2
 public class DepartmentService {
     private final IDepartmentMapper departmentMapper;
-    private final ITeamMapper teamMapper;
     private final IDepartmentRepository departmentRepository;
     private final IFlatDepartmentRepository flatDepartmentRepository;
-    private final ITeamBasedDepartmentRepository teamBasedDepartmentRepository;
     private final IEmployeeRepository employeeRepository;
-    private final IMangerRepository mangerRepository;
+    private final IManagerRepository managerRepository;
 
     public ReadDepartmentResDto getDepartmentById(Long id) {
         return departmentRepository.findById(id)
@@ -52,7 +47,7 @@ public class DepartmentService {
         var dept = departmentMapper.mapToEntity(addDeptDto);
 
         if (addDeptDto.getManagerId() != null)
-            updateDepartmentManger(dept, addDeptDto.getManagerId());
+            updateDepartmentManager(dept, addDeptDto.getManagerId());
 
         var deptId = departmentRepository.save(dept).getId();
         return AddDepartmentResDto.builder().id(deptId).build();
@@ -64,11 +59,11 @@ public class DepartmentService {
                         format("There is no department with id %d", id)));
 
         if (updateDeptDto.getName() != null) dept.setName(updateDeptDto.getName());
-        if (updateDeptDto.getManagerId() != null) updateDepartmentManger(dept, updateDeptDto.getManagerId());
+        if (updateDeptDto.getManagerId() != null) updateDepartmentManager(dept, updateDeptDto.getManagerId());
     }
 
-    private void updateDepartmentManger(Department dept, Long mangerId) {
-        var manager = mangerRepository.findById(mangerId)
+    private void updateDepartmentManager(Department dept, Long mangerId) {
+        var manager = managerRepository.findById(mangerId)
                 .orElseThrow(() -> new NotFoundBusinessException(
                         format("There is no manager with id %d", mangerId)));
 
