@@ -32,5 +32,7 @@ public class AuthUser implements UserDetails {
         return emp;
     }
 
-    public EmployeeRole getRole() { return emp.getRole(); }
+    public EmployeeRole getRole() {
+        return emp.getRole();
+    }
 }
