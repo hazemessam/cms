@@ -17,7 +17,7 @@ import java.util.stream.Stream;
 @Aspect
 @Component
 public class AuthorizationAspect {
-    @Before("@annotation(Roles) || @within(Roles)")
+    @Before("@annotation(com.oie.cms.auth.annotations.Roles) || @within(com.oie.cms.auth.annotations.Roles)")
     public void authorize(JoinPoint joinPoint) {
         var methodSignature = (MethodSignature) joinPoint.getSignature();
         var method = methodSignature.getMethod();
