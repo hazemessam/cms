@@ -28,6 +28,8 @@ public class GlobalExceptionHandler {
             errorStatus = HttpStatus.BAD_REQUEST;
         } else if (ex instanceof AuthenticationException) {
             errorStatus = HttpStatus.UNAUTHORIZED;
+        } else if (ex instanceof UnAuthorizedBusinessException) {
+            errorStatus = HttpStatus.FORBIDDEN;
         } else if (ex instanceof NotFoundBusinessException) {
             errorStatus = HttpStatus.NOT_FOUND;
         } else if (ex instanceof HttpRequestMethodNotSupportedException) {

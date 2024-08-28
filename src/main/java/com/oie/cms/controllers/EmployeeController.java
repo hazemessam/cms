@@ -1,7 +1,9 @@
 package com.oie.cms.controllers;
 
+import com.oie.cms.auth.annotations.Roles;
 import com.oie.cms.dtos.common.PaginationResDto;
 import com.oie.cms.dtos.employee.*;
+import com.oie.cms.enums.EmployeeRole;
 import com.oie.cms.services.EmployeeService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/employees")
+@Roles({ EmployeeRole.ADMIN, EmployeeRole.HR })
 @RequiredArgsConstructor
 public class EmployeeController {
     private final EmployeeService employeeService;

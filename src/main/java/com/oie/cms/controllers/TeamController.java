@@ -1,10 +1,12 @@
 package com.oie.cms.controllers;
 
+import com.oie.cms.auth.annotations.Roles;
 import com.oie.cms.dtos.common.PaginationResDto;
 import com.oie.cms.dtos.employee.ReadEmployeeResDto;
 import com.oie.cms.dtos.employee.EmployeesFilterDto;
 import com.oie.cms.dtos.team.AddTeamMemberReqDto;
 import com.oie.cms.dtos.team.ReadTeamResDto;
+import com.oie.cms.enums.EmployeeRole;
 import com.oie.cms.services.EmployeeService;
 import com.oie.cms.services.TeamService;
 import jakarta.validation.Valid;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController()
 @RequestMapping("api/teams")
+@Roles({ EmployeeRole.ADMIN, EmployeeRole.HR })
 @RequiredArgsConstructor
 public class TeamController {
     private final TeamService teamService;

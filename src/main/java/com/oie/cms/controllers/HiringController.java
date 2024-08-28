@@ -1,7 +1,10 @@
 package com.oie.cms.controllers;
 
+import com.oie.cms.auth.annotations.Public;
+import com.oie.cms.auth.annotations.Roles;
 import com.oie.cms.dtos.common.PaginationResDto;
 import com.oie.cms.dtos.hiring.*;
+import com.oie.cms.enums.EmployeeRole;
 import com.oie.cms.services.HiringService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +17,7 @@ import java.util.List;
 
 @RestController()
 @RequestMapping("api/hiring")
+@Roles({ EmployeeRole.ADMIN, EmployeeRole.HR })
 @RequiredArgsConstructor
 public class HiringController {
     private final HiringService hiringService;
@@ -26,6 +30,7 @@ public class HiringController {
     }
 
     @PostMapping("applications")
+    @Public
     public ResponseEntity<AddInterviewApplicationResDto> addInterviewApplication(
             @Valid @RequestBody AddInterviewApplicationReqDto applicationReqDto) {
         return ResponseEntity.status(HttpStatus.CREATED)

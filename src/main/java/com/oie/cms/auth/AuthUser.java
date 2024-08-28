@@ -1,6 +1,7 @@
 package com.oie.cms.auth;
 
 import com.oie.cms.entities.employee.Employee;
+import com.oie.cms.enums.EmployeeRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -30,4 +31,6 @@ public class AuthUser implements UserDetails {
     public Employee getEmployee() {
         return emp;
     }
+
+    public EmployeeRole getRole() { return emp.getRole(); }
 }

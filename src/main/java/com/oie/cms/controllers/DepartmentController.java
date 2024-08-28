@@ -1,5 +1,6 @@
 package com.oie.cms.controllers;
 
+import com.oie.cms.auth.annotations.Roles;
 import com.oie.cms.dtos.common.PaginationResDto;
 import com.oie.cms.dtos.department.*;
 import com.oie.cms.dtos.employee.ReadEmployeeResDto;
@@ -7,6 +8,7 @@ import com.oie.cms.dtos.employee.EmployeesFilterDto;
 import com.oie.cms.dtos.team.AddTeamReqDto;
 import com.oie.cms.dtos.team.AddTeamResDto;
 import com.oie.cms.dtos.team.ReadTeamResDto;
+import com.oie.cms.enums.EmployeeRole;
 import com.oie.cms.services.DepartmentService;
 import com.oie.cms.services.EmployeeService;
 import com.oie.cms.services.TeamService;
@@ -21,6 +23,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/departments")
+@Roles({ EmployeeRole.ADMIN, EmployeeRole.HR })
 @RequiredArgsConstructor
 public class DepartmentController {
     private final DepartmentService departmentService;
