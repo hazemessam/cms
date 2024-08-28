@@ -196,4 +196,15 @@ public class HiringService {
 
         cycle.setRating(avgRating);
     }
+
+    public void deleteInterview(Long interviewId) {
+        var interview = interviewRepository.findById(interviewId)
+                .orElseThrow(() -> new NotFoundBusinessException(
+                        format("There is no interview with id %d", interviewId)));
+
+        interviewRepository.deleteById(interviewId);
+        interviewRepository.flush();
+
+        updateInterviewCycleRating(interview.getCycle());
+    }
 }

@@ -80,4 +80,10 @@ public class HiringController {
         hiringService.updateInterview(interviewId, updateDto);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
+
+    @DeleteMapping("interviews/{interviewId}")
+    public ResponseEntity<Void> deleteInterview(@PathVariable Long interviewId) {
+        hiringService.deleteInterview(interviewId);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 }
