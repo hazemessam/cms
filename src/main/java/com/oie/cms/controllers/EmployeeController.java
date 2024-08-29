@@ -19,10 +19,10 @@ import org.springframework.web.bind.annotation.*;
 public class EmployeeController {
     private final EmployeeService employeeService;
 
-    @GetMapping("{id}")
-    public ResponseEntity<ReadEmployeeResDto> getEmployeeById(@PathVariable Long id) {
+    @GetMapping("{empId}")
+    public ResponseEntity<ReadEmployeeResDto> getEmployeeById(@PathVariable Long empId) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(employeeService.getEmployeeById(id));
+                .body(employeeService.getEmployeeById(empId));
     }
 
     @GetMapping("")
@@ -39,17 +39,17 @@ public class EmployeeController {
                 .body(employeeService.addEmployee(addEmpDto));
     }
 
-    @PatchMapping("{id}")
+    @PatchMapping("{empId}")
     public ResponseEntity<Void> updateEmployee(
-            @PathVariable Long id,
+            @PathVariable Long empId,
             @Valid @RequestBody UpdateEmployeeReqDto updateEmpDto) {
-        employeeService.updateEmployee(id, updateEmpDto);
+        employeeService.updateEmployee(empId, updateEmpDto);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<Void> deleteEmployeeById(@PathVariable Long id) {
-        employeeService.deleteEmployeeById(id);
+    @DeleteMapping("{empId}")
+    public ResponseEntity<Void> deleteEmployeeById(@PathVariable Long empId) {
+        employeeService.deleteEmployeeById(empId);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 }
