@@ -5,17 +5,14 @@ import com.oie.cms.entities.employee.Employee;
 import com.oie.cms.entities.employee.QEmployee;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import jakarta.persistence.EntityManager;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
+@RequiredArgsConstructor
 public class CustomEmployeeRepositoryImpl implements CustomEmployeeRepository {
     private final JPAQueryFactory queryFactory;
-
-    public CustomEmployeeRepositoryImpl(EntityManager em) {
-        queryFactory = new JPAQueryFactory(em);
-    }
 
     @Override
     public Page<Employee> findByFilter(EmployeesFilterDto filterOptions, Pageable paginationOptions) {
