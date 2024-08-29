@@ -9,7 +9,7 @@ import org.mapstruct.Mapping;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
-public interface IInterviewMapper {
+public interface InterviewMapper {
     Interview mapToEntity(AddInterviewReqDto interviewReqDto);
 
     @Mapping(target = "interviewerId", source = "interviewer.id")

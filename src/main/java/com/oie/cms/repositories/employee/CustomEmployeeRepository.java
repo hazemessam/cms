@@ -5,6 +5,6 @@ import com.oie.cms.entities.employee.Employee;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-public interface IEmployeeCustomRepository {
+public interface CustomEmployeeRepository {
     Page<Employee> findByFilter(EmployeesFilterDto filterOptions, Pageable paginationOptions);
 }

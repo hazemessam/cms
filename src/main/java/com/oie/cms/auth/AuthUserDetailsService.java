@@ -1,6 +1,6 @@
 package com.oie.cms.auth;
 
-import com.oie.cms.repositories.employee.IEmployeeRepository;
+import com.oie.cms.repositories.employee.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,7 +14,7 @@ import static java.lang.String.format;
 @Primary
 @RequiredArgsConstructor
 public class AuthUserDetailsService implements UserDetailsService {
-    private final IEmployeeRepository employeeRepository;
+    private final EmployeeRepository employeeRepository;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

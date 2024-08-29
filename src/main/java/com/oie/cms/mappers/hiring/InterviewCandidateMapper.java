@@ -10,7 +10,7 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
-public interface IInterviewCandidateMapper {
+public interface InterviewCandidateMapper {
     InterviewCandidate mapToEntity(AddInterviewApplicationReqDto applicationReqDto);
 
     ReadInterviewCandidateResDto mapToDto(InterviewCandidate candidate);

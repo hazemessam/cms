@@ -9,7 +9,7 @@ import org.mapstruct.Mapping;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
-public interface ITeamMapper {
+public interface TeamMapper {
     @Mapping(target = "leadName", source = "lead.name")
     @Mapping(target = "departmentName", source = "department.name")
     ReadTeamResDto mapToDto(Team team);

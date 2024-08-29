@@ -9,12 +9,12 @@ import com.oie.cms.entities.team.TeamMembership;
 import com.oie.cms.enums.EmployeeRole;
 import com.oie.cms.exceptions.ConflictBusinessException;
 import com.oie.cms.exceptions.NotFoundBusinessException;
-import com.oie.cms.mappers.ITeamMapper;
-import com.oie.cms.repositories.department.ITeamBasedDepartmentRepository;
-import com.oie.cms.repositories.employee.IEmployeeRepository;
-import com.oie.cms.repositories.employee.ITeamLeadRepository;
-import com.oie.cms.repositories.team.ITeamMemberAssociationRepository;
-import com.oie.cms.repositories.team.ITeamRepository;
+import com.oie.cms.mappers.TeamMapper;
+import com.oie.cms.repositories.department.TeamBasedDepartmentRepository;
+import com.oie.cms.repositories.employee.EmployeeRepository;
+import com.oie.cms.repositories.employee.TeamLeadRepository;
+import com.oie.cms.repositories.team.TeamMembershipRepository;
+import com.oie.cms.repositories.team.TeamRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -30,12 +30,12 @@ import static java.lang.String.format;
 @RequiredArgsConstructor
 @Log4j2
 public class TeamService {
-    private final ITeamMapper teamMapper;
-    private final ITeamRepository teamRepository;
-    private final ITeamBasedDepartmentRepository teamBasedDepartmentRepository;
-    private final ITeamLeadRepository teamLeadRepository;
-    private final ITeamMemberAssociationRepository teamMemberAssociationRepository;
-    private final IEmployeeRepository employeeRepository;
+    private final TeamMapper teamMapper;
+    private final TeamRepository teamRepository;
+    private final TeamBasedDepartmentRepository teamBasedDepartmentRepository;
+    private final TeamLeadRepository teamLeadRepository;
+    private final TeamMembershipRepository teamMembershipRepository;
+    private final EmployeeRepository employeeRepository;
 
     public ReadTeamResDto getTeamById(Long id) {
         return teamRepository.findById(id)
@@ -88,7 +88,7 @@ public class TeamService {
                     .team(team)
                     .member(lead)
                     .build();
-            teamMemberAssociationRepository.save(tma);
+            teamMembershipRepository.save(tma);
 
             team.setLead(lead);
         }
@@ -143,7 +143,7 @@ public class TeamService {
                 .team(team)
                 .member(emp)
                 .build();
-        teamMemberAssociationRepository.save(tma);
+        teamMembershipRepository.save(tma);
     }
 
     public void deleteTeamById(Long teamId) {

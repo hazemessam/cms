@@ -11,7 +11,7 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
-public interface IInterviewApplicationMapper {
+public interface InterviewApplicationMapper {
     InterviewApplication mapToEntity(AddInterviewApplicationReqDto applicationReqDto);
 
     @Mapping(target = "candidateName", source = "candidate.name")

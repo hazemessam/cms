@@ -9,13 +9,11 @@ import jakarta.persistence.EntityManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Repository;
 
-@Repository
-public class EmployeeCustomRepository implements IEmployeeCustomRepository {
+public class CustomEmployeeRepositoryImpl implements CustomEmployeeRepository {
     private final JPAQueryFactory queryFactory;
 
-    public EmployeeCustomRepository(EntityManager em) {
+    public CustomEmployeeRepositoryImpl(EntityManager em) {
         queryFactory = new JPAQueryFactory(em);
     }
 

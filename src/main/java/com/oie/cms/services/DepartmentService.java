@@ -6,11 +6,11 @@ import com.oie.cms.entities.department.FlatDepartment;
 import com.oie.cms.enums.EmployeeRole;
 import com.oie.cms.exceptions.ConflictBusinessException;
 import com.oie.cms.exceptions.NotFoundBusinessException;
-import com.oie.cms.mappers.IDepartmentMapper;
-import com.oie.cms.repositories.department.IDepartmentRepository;
-import com.oie.cms.repositories.department.IFlatDepartmentRepository;
-import com.oie.cms.repositories.employee.IEmployeeRepository;
-import com.oie.cms.repositories.employee.IManagerRepository;
+import com.oie.cms.mappers.DepartmentMapper;
+import com.oie.cms.repositories.department.DepartmentRepository;
+import com.oie.cms.repositories.department.FlatDepartmentRepository;
+import com.oie.cms.repositories.employee.EmployeeRepository;
+import com.oie.cms.repositories.employee.ManagerRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -26,11 +26,11 @@ import static java.lang.String.format;
 @RequiredArgsConstructor
 @Log4j2
 public class DepartmentService {
-    private final IDepartmentMapper departmentMapper;
-    private final IDepartmentRepository departmentRepository;
-    private final IFlatDepartmentRepository flatDepartmentRepository;
-    private final IEmployeeRepository employeeRepository;
-    private final IManagerRepository managerRepository;
+    private final DepartmentMapper departmentMapper;
+    private final DepartmentRepository departmentRepository;
+    private final FlatDepartmentRepository flatDepartmentRepository;
+    private final EmployeeRepository employeeRepository;
+    private final ManagerRepository managerRepository;
 
     public ReadDepartmentResDto getDepartmentById(Long id) {
         return departmentRepository.findById(id)

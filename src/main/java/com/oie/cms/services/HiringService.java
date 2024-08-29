@@ -9,16 +9,16 @@ import com.oie.cms.enums.InterviewCycleStatus;
 import com.oie.cms.enums.ReferralType;
 import com.oie.cms.exceptions.ConflictBusinessException;
 import com.oie.cms.exceptions.NotFoundBusinessException;
-import com.oie.cms.mappers.hiring.IInterviewApplicationMapper;
-import com.oie.cms.mappers.hiring.IInterviewCandidateMapper;
-import com.oie.cms.mappers.hiring.IInterviewCycleMapper;
-import com.oie.cms.mappers.hiring.IInterviewMapper;
-import com.oie.cms.repositories.department.IDepartmentRepository;
-import com.oie.cms.repositories.employee.IEmployeeRepository;
-import com.oie.cms.repositories.hiring.IInterviewApplicationRepository;
-import com.oie.cms.repositories.hiring.IInterviewCandidateRepository;
-import com.oie.cms.repositories.hiring.IInterviewCycleRepository;
-import com.oie.cms.repositories.hiring.IInterviewRepository;
+import com.oie.cms.mappers.hiring.InterviewApplicationMapper;
+import com.oie.cms.mappers.hiring.InterviewCandidateMapper;
+import com.oie.cms.mappers.hiring.InterviewCycleMapper;
+import com.oie.cms.mappers.hiring.InterviewMapper;
+import com.oie.cms.repositories.department.DepartmentRepository;
+import com.oie.cms.repositories.employee.EmployeeRepository;
+import com.oie.cms.repositories.hiring.InterviewApplicationRepository;
+import com.oie.cms.repositories.hiring.InterviewCandidateRepository;
+import com.oie.cms.repositories.hiring.InterviewCycleRepository;
+import com.oie.cms.repositories.hiring.InterviewRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -33,16 +33,16 @@ import static java.lang.String.format;
 @Transactional
 @RequiredArgsConstructor
 public class HiringService {
-    private final IInterviewCandidateMapper interviewCandidateMapper;
-    private final IInterviewApplicationMapper interviewApplicationMapper;
-    private final IInterviewCycleMapper interviewCycleMapper;
-    private final IInterviewMapper interviewMapper;
-    private final IInterviewCandidateRepository interviewCandidateRepository;
-    private final IInterviewApplicationRepository interviewApplicationRepository;
-    private final IInterviewCycleRepository interviewCycleRepository;
-    private final IInterviewRepository interviewRepository;
-    private final IDepartmentRepository departmentRepository;
-    private final IEmployeeRepository employeeRepository;
+    private final InterviewCandidateMapper interviewCandidateMapper;
+    private final InterviewApplicationMapper interviewApplicationMapper;
+    private final InterviewCycleMapper interviewCycleMapper;
+    private final InterviewMapper interviewMapper;
+    private final InterviewCandidateRepository interviewCandidateRepository;
+    private final InterviewApplicationRepository interviewApplicationRepository;
+    private final InterviewCycleRepository interviewCycleRepository;
+    private final InterviewRepository interviewRepository;
+    private final DepartmentRepository departmentRepository;
+    private final EmployeeRepository employeeRepository;
 
     public PaginationResDto<ReadInterviewApplicationResDto> getInterviewApplications(Pageable paginationOptions) {
         var applications = interviewApplicationRepository.findAll(paginationOptions);

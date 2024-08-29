@@ -11,7 +11,7 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
-public interface IEmployeeMapper {
+public interface EmployeeMapper {
     @Mapping(target = "departmentName", source = "department.name")
     ReadEmployeeResDto mapToDto(Employee emp);
 

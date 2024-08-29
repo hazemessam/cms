@@ -3,11 +3,10 @@ package com.oie.cms.services;
 import com.oie.cms.dtos.common.PaginationResDto;
 import com.oie.cms.dtos.employee.*;
 import com.oie.cms.exceptions.NotFoundBusinessException;
-import com.oie.cms.repositories.department.IDepartmentRepository;
-import com.oie.cms.repositories.employee.IEmployeeCustomRepository;
-import com.oie.cms.repositories.employee.IEmployeeRepository;
-import com.oie.cms.mappers.IEmployeeMapper;
-import com.oie.cms.repositories.team.ITeamRepository;
+import com.oie.cms.repositories.department.DepartmentRepository;
+import com.oie.cms.repositories.employee.EmployeeRepository;
+import com.oie.cms.mappers.EmployeeMapper;
+import com.oie.cms.repositories.team.TeamRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -22,11 +21,10 @@ import static java.lang.String.format;
 @RequiredArgsConstructor
 @Log4j2
 public class EmployeeService {
-    private final IEmployeeMapper employeeMapper;
-    private final IEmployeeRepository employeeRepository;
-    private final IEmployeeCustomRepository employeeCustomRepository;
-    private final IDepartmentRepository departmentRepository;
-    private final ITeamRepository teamRepository;
+    private final EmployeeMapper employeeMapper;
+    private final EmployeeRepository employeeRepository;
+    private final DepartmentRepository departmentRepository;
+    private final TeamRepository teamRepository;
     private final PasswordEncoder passwordEncoder;
 
     public ReadEmployeeResDto getEmployeeById(Long id) {
@@ -47,7 +45,7 @@ public class EmployeeService {
             throw new NotFoundBusinessException(format("There is no team with id %d", teamId));
         }
 
-        return employeeMapper.mapToDto(employeeCustomRepository.findByFilter(filterOptions, paginationOptions));
+        return employeeMapper.mapToDto(employeeRepository.findByFilter(filterOptions, paginationOptions));
     }
 
     public AddEmployeeResDto addEmployee(AddEmployeeReqDto addEmpDto) {
