@@ -2,8 +2,11 @@ package com.oie.cms.controllers;
 
 import com.oie.cms.auth.JwtService;
 import com.oie.cms.dtos.auth.LoginReqDto;
+import com.oie.cms.dtos.auth.LoginResDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,11 +22,13 @@ public class AuthController {
     private final JwtService jwtService;
 
     @PostMapping("login")
-    public String login(@Valid @RequestBody LoginReqDto loginReqDto) {
+    public ResponseEntity<LoginResDto> login(@Valid @RequestBody LoginReqDto loginReqDto) {
         var authReq = new UsernamePasswordAuthenticationToken(
                 loginReqDto.getEmail(), loginReqDto.getPassword());
         authenticationManager.authenticate(authReq);
 
-        return jwtService.generateToken(loginReqDto.getEmail());
+        var authToken = jwtService.generateToken(loginReqDto.getEmail());
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(LoginResDto.builder().authToken(authToken).build());
     }
 }
