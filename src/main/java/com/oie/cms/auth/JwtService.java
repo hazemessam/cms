@@ -8,6 +8,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.HashMap;
 
 @Service
 public class JwtService {
@@ -17,10 +18,15 @@ public class JwtService {
         this.secret = env.getProperty("JWT_SECRET");
     }
 
-    public String generateToken(String email) {
+    public String generateToken(AuthUser user) {
+        var payload = new HashMap<String, Object>();
+        payload.put("name", user.getEmployee().getName());
+        payload.put("role", user.getEmployee().getRole());
+
         var jwtExpiryDuration = 24 * 60 * 60 * 1000; // 1 day
         return Jwts.builder()
-                .setSubject(email)
+                .setClaims(payload)
+                .setSubject(user.getEmployee().getEmail())
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpiryDuration))
                 .signWith(SignatureAlgorithm.HS256, secret)
                 .compact();
