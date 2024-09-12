@@ -43,6 +43,7 @@ public class CustomEmployeeRepositoryImpl implements CustomEmployeeRepository {
                 .where(filter)
                 .offset(paginationOptions.getOffset())
                 .limit(paginationOptions.getPageSize())
+                .orderBy(employee.id.asc())
                 .fetch();
 
         return new PageImpl<>(employees, paginationOptions, totalCount);
