@@ -13,7 +13,7 @@ import java.time.Instant;
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-@SoftDelete
+@SoftDelete(columnName = "is_deleted")
 @Getter
 @Setter
 public abstract class BaseEntity {
