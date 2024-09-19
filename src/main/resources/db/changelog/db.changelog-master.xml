@@ -8,4 +8,5 @@
     <include file="db/changelog/1723217176967-add-initial-schema.xml"/>
     <include file="db/changelog/1724663237946-rename-tables.xml"/>
     <include file="db/changelog/1724750984141-change-interview-cycle-rating-column-to-float.xml"/>
+    <include file="db/changelog/1726758946093-rename-soft-deletion-column.xml"/>
 </databaseChangeLog>
